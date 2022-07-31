@@ -1,0 +1,14 @@
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.game__select {
+    max-width: fit-content;
+    padding: 0.5rem 0.75rem;
+    font-size: 1.5rem;
+}
