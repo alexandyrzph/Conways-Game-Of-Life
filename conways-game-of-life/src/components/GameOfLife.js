@@ -25,6 +25,7 @@ const GameOfLife = () => {
         Array(gridSize.rows)
             .fill(Array(gridSize.cols).fill(false))
             .map((el) => el.map((el2) => (Math.random() > 0.7 ? 1 : 0)));
+
     const [grid, setGrid] = useState(generateEmptyField());
     useEffect(() => {
         setGrid(generateEmptyField());
@@ -66,9 +67,9 @@ const GameOfLife = () => {
             }, 150);
         }
     }, [grid, gameStarted, getNextGen]);
-    console.log(grid);
+    console.log(grid.length);
 
-    const handleSelectSize = useCallback((e) => {
+    const handleSelectSize = (e) => {
         switch (e.target.value) {
             case "10x20":
                 setGridSize({ rows: 10, cols: 20 });
@@ -83,15 +84,15 @@ const GameOfLife = () => {
                 setGridSize({ rows: 10, cols: 20 });
                 break;
         }
-        setGrid(generateEmptyField());
-    }, []);
+    };
 
     return (
         <div>
-            <div className="flex flex-col justify-center bg-slate-200 h-screen items-center mx-auto pt-7 gap-6 text-2xl">
+            <div className="flex flex-col justify-center font-mono bg-slate-200 h-screen items-center mx-auto pt-7 gap-6 text-2xl">
                 <h1 className="text-6xl font-mono">Game Of Life</h1>
-                <div className="flex max-w-[800px] w-full gap-5 mx-auto">
+                <div className="flex max-w-[900px] w-full gap-5 mx-auto">
                     <button
+                        role="button-start"
                         className="px-4 py-1 mb-2 rounded-full bg-black w-full text-white"
                         onClick={() => {
                             setGameStarted(!gameStarted);
@@ -143,6 +144,7 @@ const GameOfLife = () => {
                         gridTemplateColumns: `repeat(${gridSize.cols}, 20px)`,
                         gridTemplateRows: `repeat(${gridSize.rows}, 20px)`,
                         justifyContent: "center",
+                        alignContent: "center",
                     }}
                 >
                     {grid.map((cols, i) =>
@@ -150,14 +152,16 @@ const GameOfLife = () => {
                             <div
                                 key={i + j}
                                 onClick={(e) => {
-                                    const gridCopy = JSON.parse(JSON.stringify(grid));
-                                    gridCopy[i][j] == false
-                                        ? (gridCopy[i][j] = true)
-                                        : (gridCopy[i][j] = false);
-                                    setGrid((grid) => gridCopy);
+                                    if (!gameStarted) {
+                                        const gridCopy = JSON.parse(JSON.stringify(grid));
+                                        gridCopy[i][j] === false
+                                            ? (gridCopy[i][j] = true)
+                                            : (gridCopy[i][j] = false);
+                                        setGrid((grid) => gridCopy);
+                                    }
                                 }}
                                 className={`cursor-pointer ${
-                                    grid[i][j] == 0 ? "bg-white" : "bg-green-400"
+                                    grid[i][j] == false ? "bg-white" : "bg-green-400"
                                 } h-[20px] w-[20px]`}
                             ></div>
                         ))
