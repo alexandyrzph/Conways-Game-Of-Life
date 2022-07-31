@@ -35,7 +35,7 @@ const GameOfLife = () => {
         const gridCopy = JSON.parse(JSON.stringify(grid));
         grid.forEach((row, rowIdx) => {
             row.forEach((col, colIdx) => {
-                let neighbours = 0;
+                let neighbors = 0;
                 neighborsPossible.forEach(([x, y]) => {
                     const nextX = rowIdx + x;
                     const nextY = colIdx + y;
@@ -45,13 +45,13 @@ const GameOfLife = () => {
                         nextY >= 0 &&
                         nextY < gridSize.cols
                     ) {
-                        neighbours += grid[nextX][nextY];
+                        neighbors += grid[nextX][nextY];
                     }
                 });
 
-                if (neighbours < 2 || neighbours > 3) {
+                if (neighbors < 2 || neighbors > 3) {
                     gridCopy[rowIdx][colIdx] = false;
-                } else if (grid[rowIdx][colIdx] === false && neighbours === 3) {
+                } else if (grid[rowIdx][colIdx] === false && neighbors === 3) {
                     gridCopy[rowIdx][colIdx] = true;
                 }
             });
@@ -92,7 +92,6 @@ const GameOfLife = () => {
                 <h1 className="text-6xl font-mono">Game Of Life</h1>
                 <div className="flex max-w-[900px] w-full gap-5 mx-auto">
                     <button
-                        role="button-start"
                         className="px-4 py-1 mb-2 rounded-full bg-black w-full text-white"
                         onClick={() => {
                             setGameStarted(!gameStarted);
